@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="my">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Full AI StoryMotion Studio</title>
+<style>
+:root{--bg:#0b1020;--panel:#131b31;--panel2:#192440;--line:#2a385a;--text:#edf2ff;--muted:#a9b6d4;--accent:#8b7cff;--mint:#35d9bd;--bad:#ff8585}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#1b2851,#0b1020 60%);color:var(--text);font-family:system-ui,-apple-system,"Noto Sans Myanmar",sans-serif}header{max-width:1280px;margin:auto;padding:24px 18px 12px}h1{font-size:clamp(25px,4vw,38px);margin:0 0 8px}p{line-height:1.6}header p,.muted,.hint{color:var(--muted)}main{max-width:1280px;margin:auto;padding:10px 18px 40px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}.panel{min-width:0;background:#131b31ed;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 12px 35px #0002}.full{grid-column:1/-1}h2{font-size:18px;margin:0 0 14px}label{display:block;color:var(--muted);font-size:13px;margin:12px 0 6px}input,textarea,select{width:100%;padding:11px;border:1px solid var(--line);background:#0d1529;color:var(--text);border-radius:10px;font:inherit}textarea{min-height:100px;resize:vertical;line-height:1.6}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}button{border:0;border-radius:10px;padding:11px 14px;background:var(--accent);color:#fff;font-weight:700;cursor:pointer;margin:8px 6px 0 0}button.secondary{background:#2a3859}button.mint{background:#138b7b}button:disabled{opacity:.5;cursor:not-allowed}.hint{font-size:12px;line-height:1.6}.status{white-space:pre-wrap;background:#0d1529;border:1px solid var(--line);border-radius:10px;padding:11px;margin-top:12px;font-size:13px}.scene{display:grid;grid-template-columns:140px minmax(0,1fr);gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}.scene img{width:140px;height:94px;object-fit:cover;background:#0a0f1c;border-radius:9px}.scene h3{font-size:15px;margin:0 0 6px}.scene p{font-size:13px;color:var(--muted);margin:0 0 8px;white-space:pre-wrap}.scene button{font-size:12px;padding:8px 10px}canvas{display:block;width:100%;aspect-ratio:16/9;background:#060914;border:1px solid var(--line);border-radius:12px}.pill{display:inline-block;padding:4px 9px;border-radius:999px;background:#263355;color:#d5dcff;font-size:11px;margin:3px}.toprow{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}.toprow h2{margin:0}.notice{padding:10px 12px;border-radius:10px;background:#292342;border:1px solid #51447c;font-size:12px;line-height:1.6;margin-top:12px}a{color:#bdb3ff}@media(max-width:780px){main{grid-template-columns:1fr}.full{grid-column:auto}.row{grid-template-columns:1fr}.scene{grid-template-columns:95px minmax(0,1fr)}.scene img{width:95px;height:78px}}
+</style>
+</head>
+<body>
+<header>
+<h1>🎬 Full AI StoryMotion Studio</h1>
+<p>ဝတ္ထုရေးခြင်း၊ Scene storyboard၊ AI ပုံဖန်တီးခြင်း၊ မြန်မာ narration အသံထုတ်ခြင်းနှင့် ၃–၅ မိနစ်စီ Video export ကို တစ်နေရာတည်းတွင် စီမံပါ။</p>
+<span class="pill">AI Story</span><span class="pill">AI Images</span><span class="pill">Myanmar TTS</span><span class="pill">2.5D Pan / Zoom</span><span class="pill">Split export</span>
+</header>
+<main>
+<section class="panel">
+<h2>၁။ ဝတ္ထုဖန်တီးရန်</h2>
+<label for="idea">ဝတ္ထုအကြောင်းအရာ / ဇာတ်လမ်းအိုင်ဒီယာ</label>
+<textarea id="idea" placeholder="ဥပမာ - တောရွာလေးတစ်ရွာမှာ လျှို့ဝှက်စာအုပ်တစ်အုပ်ကို တွေ့သွားတဲ့ မိန်းကလေးတစ်ယောက်အကြောင်း..."></textarea>
+<div class="row">
+<div><label for="genre">အမျိုးအစား</label><select id="genre"><option>Fantasy</option><option>Mystery</option><option>Adventure</option><option>Comedy</option><option>Romance</option><option>Historical</option><option>Horror</option><option>Science Fiction</option></select></div>
+<div><label for="minutes">ဝတ္ထုကြာချိန်</label><select id="minutes"><option value="3">3 မိနစ်</option><option value="5" selected>5 မိနစ်</option><option value="10">10 မိနစ်</option><option value="15">15 မိနစ်</option><option value="30">30 မိနစ်</option></select></div>
+</div>
+<div class="row">
+<div><label for="style">ပုံစံ</label><select id="style"><option>2.5D Cinematic Fantasy</option><option>Anime 2.5D</option><option>Storybook Illustration</option><option>Realistic Cinematic</option><option>Dark Mystery</option></select></div>
+<div><label for="ratio">Video အချိုး</label><select id="ratio"><option value="16:9">16:9 YouTube</option><option value="9:16">9:16 Shorts</option><option value="1:1">1:1 Square</option></select></div>
+</div>
+<button id="storyBtn">✨ AI ဝတ္ထုရေးပြီး Scene ခွဲမည်</button>
+<p class="hint">ဝတ္ထုနဲ့ Scene များကို AI ဖန်တီးပေးမည်။ Scene အရေအတွက်နဲ့ ကြာချိန်သည် ခန့်မှန်းတန်ဖိုးဖြစ်ပြီး narration အရှည်ပေါ် မူတည်နိုင်သည်။</p>
+</section>
+<section class="panel">
+<h2>၂။ Preview & Export</h2>
+<canvas id="canvas" width="1280" height="720"></canvas>
+<div class="row">
+<div><label for="partLength">Export အပိုင်းကြာချိန်</label><select id="partLength"><option value="3">3 မိနစ်စီ</option><option value="4">4 မိနစ်စီ</option><option value="5" selected>5 မိနစ်စီ</option></select></div>
+<div><label for="voice">မြန်မာ AI Voice</label><select id="voice"><option value="female">Nilar — အမျိုးသမီးအသံ (မြန်မာ)</option><option value="male">Thiha — အမျိုးသားအသံ (မြန်မာ)</option></select></div>
+</div>
+<label for="selectedPart">ထုတ်မည့် Part</label><select id="selectedPart"><option value="0">Scene ဖန်တီးပြီးမှ ရွေးနိုင်ပါမည်</option></select>
+<button class="mint" id="assetsBtn" disabled>🖼️ ပုံများနှင့် အသံများ ဖန်တီးမည်</button>
+<button id="exportBtn" disabled>🎞️ ရွေးထားသော Part ကို Video ထုတ်မည်</button>
+<button class="secondary" id="jsonBtn" disabled>Storyboard JSON သိမ်းမည်</button>
+<div id="status" class="status">အဆင်သင့်ဖြစ်ပါပြီ။ AI API ကိုအသုံးပြုရန် server တွင် OPENAI_API_KEY သတ်မှတ်ထားရပါမည်။</div>
+<div class="notice">မြန်မာအသံအတွက် Azure Speech Nilar/Thiha Neural voice ကို အသုံးပြုထားသည်။ Free quota နှင့် သုံးစွဲမှုကန့်သတ်ချက်များ ရှိနိုင်သည်။</div>
+</section>
+<section class="panel full">
+<div class="toprow"><h2>၃။ Scene & Asset Manager</h2><span class="pill" id="count">0 scenes</span></div>
+<div id="storyText" class="muted"></div>
+<div id="scenes"><p class="hint">အိုင်ဒီယာထည့်ပြီး AI ဝတ္ထုရေးပါ။</p></div>
+</section>
+<section class="panel full">
+<h2>အလုပ်လုပ်ပုံနှင့် လိုအပ်ချက်များ</h2>
+<p class="hint">ဒီ project သည် AI API ချိတ်ဆက်ထားသော runnable starter ဖြစ်သည်။ AI ဝတ္ထု၊ ပုံနှင့် TTS ကို server က ခေါ်ပေးသည်။ 2.5D အကျိုးသက်ရောက်မှုမှာ AI ပုံတစ်ပုံအပေါ် slow pan/zoom (parallax ဆန်သော motion) ဖြစ်ပြီး character rigging သို့မဟုတ် video-generation model က ထုတ်ပေးသော frame-by-frame animation မဟုတ်ပါ။ အမှန်တကယ် moving character video အတွက် သီးခြား video-generation provider ကို ထပ်ချိတ်ဆက်ရမည်။</p>
+</section>
+</main>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const state={story:null,scenes:[],busy:false};
+const canvas=$('canvas'),ctx=canvas.getContext('2d');
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+function status(s){$('status').textContent=s}
+async function api(url,body){
+ const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+ const data=await r.json().catch(()=>({error:'Server response ကို ဖတ်မရပါ။'}));
+ if(!r.ok)throw new Error(data.error||`Request failed (${r.status})`);
+ return data;
+}
+function selectedPart(){
+ const target=Number($('partLength').value)*60;
+ const scenesPer=Math.max(1,Math.floor(target/8));
+ const parts=[];
+ for(let i=0;i<state.scenes.length;i+=scenesPer)parts.push({start:i,end:Math.min(i+scenesPer,state.scenes.length),index:parts.length});
+ return parts[Number($('selectedPart').value)]||null;
+}
+function refreshParts(){
+ const target=Number($('partLength').value)*60;
+ const per=Math.max(1,Math.floor(target/8));
+ const parts=[];for(let i=0;i<state.scenes.length;i+=per)parts.push({start:i,end:Math.min(i+per,state.scenes.length),index:parts.length});
+ const sel=$('selectedPart');sel.replaceChildren();
+ parts.forEach(p=>{const o=document.createElement('option');o.value=p.index;o.textContent=`Part ${p.index+1} — Scenes ${p.start+1}-${p.end}`;sel.append(o)});
+}
+function draw(i,p=0){
+ const W=canvas.width,H=canvas.height,s=state.scenes[i];ctx.clearRect(0,0,W,H);
+ if(s?.image){
+  const im=new Image();im.src=s.image;
+  if(im.complete&&im.naturalWidth){const scale=Math.max(W/im.width,H/im.height)*(1.02+.12*p),sw=W/scale,sh=H/scale,sx=(im.width-sw)/2+(p-.5)*im.width*.04,sy=(im.height-sh)/2;
+   ctx.drawImage(im,Math.max(0,sx),Math.max(0,sy),sw,sh,0,0,W,H);
+  }else{ctx.fillStyle='#1b2851';ctx.fillRect(0,0,W,H)}
+ }else{const g=ctx.createLinearGradient(0,0,W,H);g.addColorStop(0,'#263a69');g.addColorStop(1,'#34254d');ctx.fillStyle=g;ctx.fillRect(0,0,W,H)}
+ const shade=ctx.createLinearGradient(0,H*.45,0,H);shade.addColorStop(0,'rgba(0,0,0,0)');shade.addColorStop(1,'rgba(0,0,0,.88)');ctx.fillStyle=shade;ctx.fillRect(0,0,W,H);
+ ctx.fillStyle='#c7d1ff';ctx.font='600 22px system-ui';ctx.fillText((state.story?.title||'StoryMotion').slice(0,70),42,50);
+ ctx.fillStyle='#fff';ctx.font='bold 32px system-ui';ctx.fillText(s?.title||'Preview',42,H-145);
+ ctx.font='24px system-ui';const words=(s?.narration||'AI scene preview').split(/\s+/);let line='',y=H-98;
+ for(const word of words){const test=line?line+' '+word:word;if(ctx.measureText(test).width>W-84){ctx.fillText(line,42,y);y+=32;line=word;if(y>H-28)break}else line=test}if(line&&y<=H-28)ctx.fillText(line,42,y);
+ ctx.fillStyle='#ddd';ctx.font='16px system-ui';ctx.fillText(`Scene ${i+1} / ${state.scenes.length}`,W-170,H-25);
+}
+function renderScenes(){
+ const root=$('scenes');root.replaceChildren();
+ state.scenes.forEach((s,i)=>{
+  const div=document.createElement('div');div.className='scene';const im=document.createElement('img');im.alt=`Scene ${i+1}`;if(s.image)im.src=s.image;
+  const content=document.createElement('div'),h=document.createElement('h3'),p=document.createElement('p'),buttons=document.createElement('div');
+  h.textContent=`${i+1}. ${s.title}`;p.textContent=s.narration;
+  const imageBtn=document.createElement('button');imageBtn.className='secondary';imageBtn.textContent=s.image?'ပုံ ပြန်ဖန်တီး':'ပုံဖန်တီး';imageBtn.onclick=()=>generateImage(i);
+  const voiceBtn=document.createElement('button');voiceBtn.className='secondary';voiceBtn.textContent=s.audio?'အသံ ပြန်ဖန်တီး':'အသံဖန်တီး';voiceBtn.onclick=()=>generateVoice(i);
+  buttons.append(imageBtn,voiceBtn);content.append(h,p,buttons);div.append(im,content);root.append(div);
+ });
+ $('count').textContent=`${state.scenes.length} scenes`;
+ $('assetsBtn').disabled=!state.scenes.length;$('exportBtn').disabled=!state.scenes.length;$('jsonBtn').disabled=!state.scenes.length;
+ refreshParts();if(state.scenes.length)draw(0);
+}
+$('storyBtn').addEventListener('click',async()=>{
+ if(state.busy)return;state.busy=true;$('storyBtn').disabled=true;
+ try{
+  status('AI ဝတ္ထုနှင့် storyboard ဖန်တီးနေသည်…');
+  const data=await api('/api/story',{idea:$('idea').value,genre:$('genre').value,minutes:Number($('minutes').value),style:$('style').value,language:'Myanmar'});
+  state.story=data;state.scenes=data.scenes; $('storyText').textContent=data.logline||'';
+  renderScenes();status(`ဝတ္ထု "${data.title}" ဖန်တီးပြီးပါပြီ။ Scene ${state.scenes.length} ခု။ ပုံနဲ့အသံဖန်တီးရန် ခလုတ်ကိုနှိပ်ပါ။`);
+ }catch(e){status('ဝတ္ထုဖန်တီးမှု မအောင်မြင်ပါ: '+e.message)}
+ finally{state.busy=false;$('storyBtn').disabled=false}
+});
+async function generateImage(i){
+ const s=state.scenes[i];if(!s||state.busy)return;
+ state.busy=true;
+ try{status(`Scene ${i+1} အတွက် AI ပုံ ဖန်တီးနေသည်…`);const d=await api('/api/image',{prompt:s.visual_prompt,style:$('style').value,ratio:$('ratio').value});s.image=d.image;renderScenes();status(`Scene ${i+1} ပုံပြီးပါပြီ.`)}
+ catch(e){status(`Scene ${i+1} ပုံဖန်တီးမှု မအောင်မြင်ပါ: ${e.message}`)}
+ finally{state.busy=false}
+}
+async function generateVoice(i){
+ const s=state.scenes[i];if(!s||state.busy)return;
+ state.busy=true;
+ try{status(`Scene ${i+1} အတွက် မြန်မာ narration အသံ ဖန်တီးနေသည်…`);const d=await api('/api/voice',{text:s.narration,voice:$('voice').value});s.audio=d.audio;renderScenes();status(`Scene ${i+1} အသံပြီးပါပြီ။`)}
+ catch(e){status(`Scene ${i+1} အသံဖန်တီးမှု မအောင်မြင်ပါ: ${e.message}`)}
+ finally{state.busy=false}
+}
+$('assetsBtn').addEventListener('click',async()=>{
+ if(state.busy)return;state.busy=true;$('assetsBtn').disabled=true;
+ try{
+  for(let i=0;i<state.scenes.length;i++){
+   const s=state.scenes[i];
+   if(!s.image){status(`AI ပုံ ဖန်တီးနေသည် — ${i+1}/${state.scenes.length}`);const d=await api('/api/image',{prompt:s.visual_prompt,style:$('style').value,ratio:$('ratio').value});s.image=d.image;renderScenes()}
+   if(!s.audio){status(`မြန်မာအသံ ဖန်တီးနေသည် — ${i+1}/${state.scenes.length}`);const d=await api('/api/voice',{text:s.narration,voice:$('voice').value});s.audio=d.audio;renderScenes()}
+  }
+  status('Scene အားလုံးအတွက် ပုံနှင့်အသံ ဖန်တီးပြီးပါပြီ။ အပိုင်းရွေးပြီး Video ထုတ်နိုင်ပါပြီ။');
+ }catch(e){status('Asset ဖန်တီးမှု ရပ်သွားသည်: '+e.message+'။ ထပ်နှိပ်လျှင် ဖန်တီးပြီးသား asset များကို ကျော်သွားပါမည်။')}
+ finally{state.busy=false;$('assetsBtn').disabled=false}
+});
+$('partLength').addEventListener('change',refreshParts);
+$('selectedPart').addEventListener('change',()=>{const p=selectedPart();if(p)draw(p.start)});
+$('jsonBtn').addEventListener('click',()=>{
+ const blob=new Blob([JSON.stringify({story:state.story,scenes:state.scenes.map(({image,audio,...s})=>({...s,image:image?'generated':'missing',audio:audio?'generated':'missing'}))},null,2)],{type:'application/json'});
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='storymotion-project.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),10000);
+});
+$('exportBtn').addEventListener('click',async()=>{
+ const part=selectedPart();if(!part)return;
+ const list=state.scenes.slice(part.start,part.end);
+ if(list.some(s=>!s.image)){status('ရွေးထားသော Part ထဲက Scene အားလုံးအတွက် ပုံဖန်တီးပေးပါ။');return}
+ if(list.some(s=>!s.audio)){status('ရွေးထားသော Part ထဲက Scene အားလုံးအတွက် အသံဖန်တီးပေးပါ။');return}
+ if(!window.MediaRecorder||!canvas.captureStream){status('ဒီ Browser မှာ video export မထောက်ပံ့ပါ။ Chrome နောက်ဆုံးဗားရှင်းကို သုံးပါ။');return}
+ $('exportBtn').disabled=true;
+ let stream=null,recorder=null,ctxAudio=null;
+ try{
+  status('Export စတင်နေသည်…');const fps=24;
+  const canvasStream=canvas.captureStream(fps);ctxAudio=new AudioContext();
+  const dest=ctxAudio.createMediaStreamDestination();
+  const sources=[];
+  for(const s of list){
+   const resp=await fetch(s.audio);const buf=await resp.arrayBuffer();const decoded=await ctxAudio.decodeAudioData(buf);
+   sources.push(decoded);
+  }
+  const tracks=[...canvasStream.getVideoTracks(),...dest.stream.getAudioTracks()];stream=new MediaStream(tracks);
+  const mime=MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus')?'video/webm;codecs=vp9,opus':'video/webm';
+  recorder=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:5000000});const chunks=[];
+  recorder.ondataavailable=e=>{if(e.data?.size)chunks.push(e.data)};
+  const stopped=new Promise((resolve,reject)=>{recorder.onstop=resolve;recorder.onerror=()=>reject(new Error('Recorder error'))});
+  await ctxAudio.resume();recorder.start(1000);
+  const start=performance.now();let schedule=ctxAudio.currentTime+.15,offsets=[];
+  for(let i=0;i<sources.length;i++){offsets.push(schedule);const src=ctxAudio.createBufferSource();src.buffer=sources[i];src.connect(dest);src.start(schedule);schedule+=sources[i].duration}
+  const totalMs=sources.reduce((sum,b)=>sum+b.duration,0)*1000;
+  await new Promise(resolve=>{
+   function tick(now){
+    const elapsed=now-start;let t=elapsed/1000,idx=0;
+    while(idx<sources.length-1&&t>=sources.slice(0,idx+1).reduce((sum,b)=>sum+b.duration,0))idx++;
+    const offset=sources.slice(0,idx).reduce((sum,b)=>sum+b.duration,0);
+    const p=Math.min(1,Math.max(0,(t-offset)/sources[idx].duration));
+    draw(part.start+idx,p);
+    status(`Part ${part.index+1} Render: ${Math.min(100,Math.floor(elapsed/totalMs*100))}% — browser tab ကို မပိတ်ပါနှင့်။`);
+    if(elapsed>=totalMs+250){resolve()}else requestAnimationFrame(tick);
+   }requestAnimationFrame(tick)
+  });
+  recorder.stop();await stopped;
+  const blob=new Blob(chunks,{type:'video/webm'});if(!blob.size)throw new Error('Video ဖိုင်အလွတ်ဖြစ်နေသည်။');
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`storymotion_part_${part.index+1}.webm`;a.textContent=`Part ${part.index+1} Video Download`;a.style.display='inline-block';a.style.marginTop='12px';a.style.color='#c7bdff';$('status').append(document.createTextNode('\n'),a);
+  status(`Part ${part.index+1} ထုတ်ပြီးပါပြီ။ Duration သည် narration အသံအရှည်အပေါ် မူတည်သည်။ Download link ကိုနှိပ်ပါ။`);
+ }catch(e){status('Video export မအောင်မြင်ပါ: '+e.message)}
+ finally{if(stream)stream.getTracks().forEach(t=>t.stop());if(ctxAudio)await ctxAudio.close().catch(()=>{});$('exportBtn').disabled=false}
+});
+draw(0);
+fetch('/api/health').then(r=>r.json()).then(d=>{if(!d.configured)status('Server run နေပါပြီ၊ ဒါပေမဲ့ OPENAI_API_KEY မသတ်မှတ်ရသေးပါ။ .env.example ကို .env အဖြစ်ကူးပြီး API key ထည့်ပါ။')}).catch(()=>status('Server ကို အရင်စတင်ပါ။ README.md ကိုဖတ်ပါ။'));
+</script>
+</body>
+  </html>
